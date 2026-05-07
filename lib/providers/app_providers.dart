@@ -5,6 +5,8 @@ import '../models/meal_entry_model.dart';
 import '../models/food_item_model.dart';
 import '../models/nutrition_goal_model.dart';
 import '../services/hive_service.dart';
+import '../services/firebase_sync_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 const _uuid = Uuid();
 
@@ -43,6 +45,12 @@ class MealEntriesNotifier extends StateNotifier<List<MealEntry>> {
     );
     await HiveService.mealBox.put(entry.id, entry);
     _loadAll();
+    
+    // Sync to Firebase if user is logged in
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      FirebaseSyncService.syncMealsToCloud(user.uid);
+    }
   }
 
   Future<void> deleteEntry(String id) async {
