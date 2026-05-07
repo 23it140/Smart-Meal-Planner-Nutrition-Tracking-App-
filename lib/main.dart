@@ -5,8 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/app_theme.dart';
 import 'navigation/main_navigation.dart';
 import 'services/hive_service.dart';
-import 'screens/auth_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -88,13 +86,10 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        final user = FirebaseAuth.instance.currentUser;
-        final Widget nextScreen = user == null ? const AuthScreen() : const MainNavigation();
-        
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (_, __, ___) => nextScreen,
+            pageBuilder: (_, __, ___) => const MainNavigation(),
             transitionsBuilder: (_, anim, __, child) =>
                 FadeTransition(opacity: anim, child: child),
             transitionDuration: const Duration(milliseconds: 600),

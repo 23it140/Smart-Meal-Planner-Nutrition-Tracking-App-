@@ -4,8 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../providers/app_providers.dart';
 import '../core/app_theme.dart';
 import '../widgets/shared_widgets.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'auth_screen.dart';
 
 class GoalSettingScreen extends ConsumerStatefulWidget {
   const GoalSettingScreen({super.key});
@@ -125,17 +123,6 @@ class _GoalSettingScreenState extends ConsumerState<GoalSettingScreen> {
               onPressed: _saveGoals,
               child: const Text('Save', style: TextStyle(color: AppTheme.accent, fontWeight: FontWeight.w700)),
             ),
-          IconButton(
-            icon: Icon(Icons.logout_rounded, color: AppTheme.error),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              if (mounted) {
-                Navigator.of(context, rootNavigator: true).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const AuthScreen()),
-                );
-              }
-            },
-          ),
         ],
       ),
       body: SingleChildScrollView(
